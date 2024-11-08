@@ -5,7 +5,7 @@ class City:
         self.id = id
         self.name = name
         self.region_id = region_id
-        type(self).all_cities.append(self)
+        # type(self).all_cities.append(self)
         
     @property
     def name(self):
