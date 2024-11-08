@@ -27,7 +27,8 @@ class Region:
             raise TypeError("must be of type string")
         elif not 5<= len(value) <=50: 
              raise ValueError("must be between 5 and 50 characters")  
-        elif hasattr(self, _name): 
+        elif hasattr(self, "_name"): 
+            raise AttributeError("this is unique")  
         self._name = value
         # self._name = value (validation checks are always at the end)
         
