@@ -15,6 +15,8 @@ class City:
         self.region_id = region_id
         type(self).all_cities.append(self)
 
+        
+
             ###  ORM Class Methods  ###
 
     @classmethod
