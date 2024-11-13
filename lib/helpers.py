@@ -1,6 +1,6 @@
 import re
 
-from lib.models.city import City
+from models.city import City
 
 class Helper:
 

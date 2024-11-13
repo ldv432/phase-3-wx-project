@@ -1,7 +1,7 @@
 from datetime import datetime
 import ipdb
 class Weather:
-    def __init__(self, id, city_id, forecast_date, weather_conditions, max_temperature, min_temperature, max_wind, max_humidity):
+    def __init__(self, city_id, forecast_date, weather_conditions, max_temperature, min_temperature, max_wind, max_humidity, id=None):
         self.id = id,
         self.city_id = city_id # city_id is foreign key
         self.forecast_date = forecast_date 
@@ -10,7 +10,6 @@ class Weather:
         self.min_temperature = min_temperature
         self.max_wind = max_wind
         self.max_humidity = max_humidity
-        pass
 
     @property
     def id(self):
