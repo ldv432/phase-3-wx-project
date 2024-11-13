@@ -5,12 +5,14 @@ from helpers import Helper
 class Cli(Helper):
         
         def main(self):
+                print()
                 Helper.welcome()
                 while True:
                         Helper.menu()
-                        user_choice = input("> ")
+                        user_choice = input("Type your input here: ")
                         if user_choice == ('1'):
                                 Helper.list_cities()
+                        #Do we want the "original" menu, or the new and improved menu
                         
 
 

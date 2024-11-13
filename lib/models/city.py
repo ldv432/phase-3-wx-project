@@ -1,8 +1,5 @@
-import sqlite3
-
-CONN = sqlite3.connect('lib/weather_data.db')
-
-CURSOR = CONN.cursor()
+from models.__init__ import CURSOR, CONN
+# from models.weather import Weather
 
 # from helpers import Helper
 
@@ -77,8 +74,18 @@ class City:
                 return cls.new_from_db(row_of_data) if row_of_data else None
         except Exception as e:
             return e
+        
+    @classmethod
+    def find_by_id(cls, id):
+        CURSOR.execute("""
+                    SELECT * FROM cities
+                    WHERE id is ?;
+                    """, (id,)
+                    )
+        row = CURSOR.fetchone()
+        return cls(row[1], row[0]) if row else None
             
-        ###  ORM Class Methods  ###
+        ###  ORM Instance Methods  ###
 
     def save(self):
         try:
@@ -117,9 +124,26 @@ class City:
         if not isinstance(value,str):
             raise TypeError("must be of type string")
         elif not 3 <= len(value) <=50: 
-            #  elif not (3<= len(value) <=50):
              raise ValueError("must be between 3 and 50 characters")
         self._name = value
+
+    ### ASSOCIATION METHODS ###
+    def weathers(self):
+        CURSOR.execute("""
+                SELECT * FROM weathers
+                WHERE city_id = ?
+                """, (self.id,),
+                )
+        rows = CURSOR.fetchall()
+        return [Weather(row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[0]) for row in rows]
     
-    
-    
+        # self.id = id,
+        # self.city_id = city_id # city_id is foreign key
+        # self.forecast_date = forecast_date 
+        # self.weather_conditions = weather_conditions
+        # self.max_temperature = max_temperature
+        # self.min_temperature = min_temperature
+        # self.max_wind = max_wind
+        # self.max_humidity = max_humidity
+
+from models.weather import Weather
