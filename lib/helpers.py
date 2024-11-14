@@ -14,23 +14,54 @@ class Helper:
     @staticmethod
     def menu():
         print("Please select from the options below:")
+        print("\n1. List all cities")
+        # print("2. Look up weather history ")
+        # print("3. Look up all occurences of a weather event based on type")
+        # print("4. Look up hottest temperature for a chosen city")
+        # print("5. Look up the coldest temperature for a chosen city")
+        # print("6. Look up most humid day for a chosen city")
+        # print("7. Look up the average high temperature for a chosen city")
+        # print("8. Look up the average low temperature for a chosen city")
+
+    @staticmethod
+    def cities_menu():
         print()
-        print("1. List all cities")
-        print("2. Look up weather history ")
-        print("3. Look up all occurences of a weather event based on type")
-        print("4. Look up hottest temperature for a chosen city")
-        print("5. Look up the coldest temperature for a chosen city")
-        print("6. Look up most humid day for a chosen city")
-        print("7. Look up the average high temperature for a chosen city")
-        print("8. Look up the average low temperature for a chosen city")
 
     @staticmethod
     def list_cities():
         if cities := City.get_all():
-            for city in cities:
-                print(city.name)
+            print("\nList of Cities:")
+            for index, city in enumerate(cities):
+                print(f"{index}. {city.name}")
+            
+            try:
+                city_choice = int(input("Select a city by number to view more weather details, or press 0 to go back"))
+                if city_choice == 0:
+                    return
+                elif 1 <= city_choice <= len(cities):
+                    selected_city = cities[city_choice - 1]
+                    Helper.city_details_menu(selected_city)
+                else:
+                    print("Invalid choice, returning to main menu.")
+            except ValueError:
+                print("Invalid input, returning to main menu.")
+        else: 
+            print("No cities found.")
 
-    
+    @staticmethod
+    def city_details_menu(city):
+        while True:
+            print(f"\nCity Details for {city.name} in the last 7 days:")
+            print("1. View the daily weather")
+            print("2. View hottest temperature")
+            print("3. View coldest temperature")
+            print("4. View most humid day")
+            print("5. View average high temperature")
+            print("6. View average low temperature")
+            print("0. Return to city list")
+
+
+
     @classmethod
     def pascal_to_camel_plural(cls):
         # Use regex to split the class name at capital letters
