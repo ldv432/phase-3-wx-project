@@ -112,6 +112,8 @@ class City:
         except Exception as e:
             return e
         
+  
+        
         ###  PROPERTIES  ###
 
     @property

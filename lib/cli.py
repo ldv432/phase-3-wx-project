@@ -12,7 +12,7 @@ class Cli(Helper):
                         user_choice = input("Type your input here: ")
                         if user_choice == ('1'):
                                 Helper.list_cities()
-                        #Do we want the "original" menu, or the new and improved menu
+                                
                         
 
 
