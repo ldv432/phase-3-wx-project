@@ -1,7 +1,7 @@
 from datetime import datetime
 from models.city import City
 
-# import ipdb
+
 from models.__init__ import CURSOR, CONN
 
 
@@ -19,12 +19,11 @@ class Weather:
         id=None,
     ):
         self.id = id
-        self.city_id = city_id  # city_id is foreign key
+        self.city_id = city_id 
         self.forecast_date = forecast_date
         self.weather_conditions = weather_conditions
         self.max_temperature = max_temperature
         self.min_temperature = min_temperature
-        # self.max_wind = max_wind
         self.max_humidity = max_humidity
 
     @property
@@ -50,11 +49,7 @@ class Weather:
     def forecast_date(self, forecast_date):
         if not isinstance(forecast_date, str):
             raise TypeError("Date entered must be a string with format MM/DD/YYYY")
-        # elif datetime.strptime(forecast_date, '%m/%d/%Y'):
-
-        #     raise ValueError("Date must be in the format MM/DD/YYYY")
         try:
-            # Try parsing the date to ensure it's in the correct format
             datetime.strptime(forecast_date, "%m/%d/%Y")
         except ValueError:
             raise ValueError("Date must be in the format MM/DD/YYYY")
@@ -117,7 +112,7 @@ class Weather:
                             max_temperature INTEGER NOT NULL,
                             min_temperature INTEGER NOT NULL,
                             max_humidity INTEGER NOT NULL CHECK(0 <= max_humidity <= 100),
-                            FOREIGN KEY (city_id) references cities(id)
+                            FOREIGN KEY (city_id) references cities(id) ON DELETE CASCADE
                            ); 
             """
             )
@@ -133,8 +128,8 @@ class Weather:
             CURSOR.execute(
                 """
                 DROP TABLE IF EXISTS weathers
-        """
-            )
+                """
+                )
         except Exception as e:
             return e
 
@@ -230,42 +225,9 @@ class Weather:
                 return [cls.new_from_db(row) for row in data]
         except Exception as e:
             return e
-        
+
+
     
-    ### Class Menu Methods ###
-    @classmethod
-    def weather_history(cls, city):
-        print(f"Showing weather history for {city.name}...")
-        # Implement logic to retrieve and display weather history for the city
-        # Could use cls to reference other class-level data if needed
-
-    @classmethod
-    def hottest_temperature(cls, city):
-        print(f"Showing hottest temperature for {city.name}...")
-        # Implement logic to find and display hottest temperature for the city
-
-    @classmethod
-    def coldest_temperature(cls, city):
-        print(f"Showing coldest temperature for {city.name}...")
-        # Implement logic to find and display coldest temperature for the city
-
-    @classmethod
-    def most_humid_day(cls, city):
-        print(f"Showing most humid day for {city.name}...")
-        # Implement logic to find and display the most humid day for the city
-
-    @classmethod
-    def average_high_temperature(cls, city):
-        print(f"Showing average high temperature for {city.name}...")
-        # Implement logic to calculate and display average high temperature for the city
-
-    @classmethod
-    def average_low_temperature(cls, city):
-        print(f"Showing average low temperature for {city.name}...")
-        # Implement logic to calculate and display average low temperature for the city
-        
-   
-
 
         ###  ORM Instance Methods  ###
 
@@ -284,12 +246,14 @@ class Weather:
                 VALUES
                 (?, ?, ?, ?, ?, ?) 
                 """,
-                    (self.city_id, 
-                     self.forecast_date, 
-                     self.weather_conditions,
-                     self.max_temperature,
-                     self.min_temperature,
-                     self.max_humidity),
+                    (
+                        self.city_id,
+                        self.forecast_date,
+                        self.weather_conditions,
+                        self.max_temperature,
+                        self.min_temperature,
+                        self.max_humidity,
+                    ),
                 )  # line 44/45 "sanitizes" values
                 self.id_ = CURSOR.lastrowid
         except Exception as e:
@@ -310,7 +274,7 @@ class Weather:
                 return self
         except Exception as e:
             return e
-        
+
         #### ASSOCIATION METHOD ####
 
     def city(self):
